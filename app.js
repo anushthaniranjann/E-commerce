@@ -1,17 +1,30 @@
-const http = require('http');
+//const http = require('http')
 const express = require('express');
 
 const app = express();
+//const server = http.createServer(app)
 
-app.use((req, res, next) => {
-    console.log('in middleware')
-    next(); //allows req to conitnue to next middleware
+const port = process.env.PORT || 3000
+
+app.use('/add-product', (req, res, next) => {
+    console.log('Tired');
+    res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</form>');
 });
 
-app.use((req, res, next) => {
-    console.log('Tired')
+app.use('/product', (req, res, next) => {
+    console.log(req.body);
+    res.redirect('/');
+})
+
+app.use('/', (req, res, next) => {
+    console.log('Tired');
+    res.send('<h1>Hello</h1>');
 });
 
-const server = http.createServer(app);
+// server.listen(port, () => {
+//     console.log(`Server is up on port ${port}`)
+// })
 
-server.listen(2000);
+app.listen(port, port, () => {
+    console.log(`Server is up on port ${port}`)
+});
